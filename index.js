@@ -30,6 +30,11 @@ async function run() {
 
     const toyCollection = client.db('kidsToy').collection('toys');
 
+    app.get('/toys', async(req, res)=>{
+        const result = await toyCollection.find().toArray();
+        res.send(result);
+    })
+
 
 
     // Send a ping to confirm a successful connection
