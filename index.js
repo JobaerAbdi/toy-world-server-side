@@ -38,10 +38,33 @@ async function run() {
     })
 
     app.get("/addtoys", async (req, res) => {
-      const data = await addToysCollection.find().toArray()
-      res.send(data)
+      const result = await addToysCollection.find().toArray()
+      res.send(result)
     })
-    
+
+    app.get("/addtoys/:id", async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await addToysCollection.findOne(query)
+      res.send(result)
+    })
+
+    app.get('/addtoys', async(req,res)=>{
+      let query = {};
+      if(req.query?.email){
+        query = {email: req.query.email}
+      }
+      const result = await addToysCollection.find(query).toArray();
+      res.send(result)
+    })
+
+    app.delete("/addtoys/:id", async (req, res) => {
+      const id = req.params.id
+      const query = { _id: new ObjectId(id) }
+      const result = await addToysCollection.deleteOne(query)
+      res.send(result)
+    })
+
 
     app.get('/toys', async(req, res)=>{
         const result = await toyCollection.find().toArray();
